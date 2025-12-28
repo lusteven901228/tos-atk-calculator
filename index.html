@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>神魔之塔三圍基值計算器</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<style>
+body {font-family: "Lato", sans-serif}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+/* Fix first column width */
+table tr td, table tr th {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+input[type=number] {
+  width: 95px;
+  min-width: 95px;
+  max-width: 95px;
+  text-align: right;
+}
+</style>
+</head>
+<body>
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;">
+  <!-- The Band Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+    <h2 class="w3-center">神魔之塔卡片攻擊計算器</h2>
+    <div><p class="w3-xlarge">
+        種族:<select name="種族" id="multiplier">
+            <option value="1.5" selected="selected">神、妖</option>
+            <option value="0.66667">獸</option>
+            <option value="1">人、魔、龍、機</option>
+        </select>
+        <button onclick="clearInputs()">clear</button>
+    </p></div>
+    <div><p class="w3-wide">
+    <div style="display: flex; align-items: center; justify-content: center">
+        <table>
+            <tbody>
+                <tr class="w3-xlarge">
+                    <td></td>
+                    <td>等級</td>
+                    <td>突破</td>
+                    <td>攻擊</td>
+
+                </tr>
+                <tr class="w3-xlarge">
+                    <td>等級1</td>
+                    <td><input type="number" id="lv_1" placeholder="1" min="0" value="1" max="99"></td>
+                    <td><input type="number" id="asc_1" placeholder="0" value="0" min="0" max="20"></td>
+                    <td><input type="number" id="atk_1" placeholder="0" min="0"></td>
+
+                </tr>
+                <tr class="w3-xlarge">
+                    <td>(等級2)</td>
+                    <td><input type="number" id="lv_2" placeholder="50" min="0" max="99"></td>
+                    <td><input type="number" id="asc_2" placeholder="0" value="0" min="0" max="20"></td>
+                    <td><input type="number" id="atk_2" placeholder="0" min="0"></td>
+                </tr>
+                <tr class="w3-xlarge">
+                    <td><span style="color: red;">最高</span>等級</td>
+                    <td><input type="number" id="lv_3" placeholder="最高等級" min="0" value="99" max="99"></td>
+                    <td><input type="number" id="asc_3" placeholder="0" value="0" min="0" max="20"></td>
+                    <td><input type="number" id="atk_3" placeholder="0" min="0"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="w3-xlarge" style="display: flex; flex-direction: column; margin-left: 10px;">
+            <p >快速:</p>
+            <img src="images/2468.jpg" alt="img1" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('2468')">
+            <img src="images/10564.jpg" alt="img2" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('10564')">
+        </div>
+    </div>
+    </p></div>
+    <div><p class="w3-xlarge">
+        目標攻擊:<input type="number" id="target_atk" placeholder="0" min="0">
+    </p></div>
+    <p><div>
+        <label class="w3-xlarge">
+            <button id="toggleBtn" onclick="toggleAscMode()">
+                突破:所有
+            </button>
+            <input type="number" id="target_asc" value="0" min="0" max="20" style="display: none;">
+        </label>
+    </div></p>
+    <div><p class="w3-xlarge">
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <button class="w3-xlarge" onclick="calc()">計算</button>
+    </div>
+    </p></div>
+    <div id="errorSection">
+        <pre id="errorLog" style="font-size: 25px; color: #ff0000; text-align: center;"></pre>
+    </div>
+    <div id="output" style="display: flex; justify-content: center; align-items: center;">
+
+    </div>
+<!-- Icon attribution -->
+    <div style="margin-top: 16px; font-size: 14px; color: #888;">
+        Image Copyright © <a href="https://gallery.tosgame.com/" target="_blank" rel="noopener">Tower of Saviors</a> 2025.
+    </div>
+</div>
+<script>
+all_asc = true;
+function clearInputs(){
+    document.getElementById("lv_1").value = "1";
+    document.getElementById("asc_1").value = "0";
+    document.getElementById("atk_1").value = "";
+    document.getElementById("lv_2").value = "";
+    document.getElementById("asc_2").value = "0";
+    document.getElementById("atk_2").value = "";
+    document.getElementById("lv_3").value = "99";
+    document.getElementById("asc_3").value = "0";
+    document.getElementById("atk_3").value = "";
+    document.getElementById("target_atk").value = "";
+    document.getElementById("target_asc").value = "0";
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("errorLog").innerText = "";
+    document.getElementById("errorSection").style.display = "none";
+}
+function loadDefaults(id){
+    if(id === '2468'){
+        document.getElementById("multiplier").value = "1";
+        document.getElementById("lv_1").value = "0";
+        document.getElementById("asc_1").value = "0";
+        document.getElementById("atk_1").value = "1596";
+        document.getElementById("lv_2").value = "50";
+        document.getElementById("asc_2").value = "0";
+        document.getElementById("atk_2").value = "2245";
+        document.getElementById("lv_3").value = "99";
+        document.getElementById("asc_3").value = "0";
+        document.getElementById("atk_3").value = "2882";
+    }else if(id === '10564'){
+        document.getElementById("multiplier").value = "1";
+        document.getElementById("lv_1").value = "1";
+        document.getElementById("asc_1").value = "0";
+        document.getElementById("atk_1").value = "1333";
+        document.getElementById("lv_2").value = "50";
+        document.getElementById("asc_2").value = "0";
+        document.getElementById("atk_2").value = "";
+        document.getElementById("lv_3").value = "99";
+        document.getElementById("asc_3").value = "0";
+        document.getElementById("atk_3").value = "2390";
+    }
+}
+function toggleAscMode() {
+    all_asc = !all_asc;
+    if (all_asc) {
+        document.getElementById("target_asc").style.display = "none";
+        document.getElementById("toggleBtn").innerText = "突破:所有";
+    } else {
+        document.getElementById("target_asc").style.display = "inline-block";
+        document.getElementById("toggleBtn").innerText = "指定突破等級";
+    }
+}
+
+function calc(){
+    document.getElementById("errorLog").innerText = "";
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("errorSection").style.display = "none";
+    let lv_1 = parseInt(document.getElementById("lv_1").value);
+    let asc_1 = parseInt(document.getElementById("asc_1").value);
+    let atk_1 = parseInt(document.getElementById("atk_1").value);
+    
+    let lv_2 = parseInt(document.getElementById("lv_2").value);
+    let asc_2 = parseInt(document.getElementById("asc_2").value);
+    let atk_2 = parseInt(document.getElementById("atk_2").value);
+    
+    let lv_3 = parseInt(document.getElementById("lv_3").value);
+    let asc_3 = parseInt(document.getElementById("asc_3").value);
+    let atk_3 = parseInt(document.getElementById("atk_3").value);
+    
+    let power = parseFloat(document.getElementById("multiplier").value);
+    var skip2 = false;
+
+    let target_atk = parseInt(document.getElementById("target_atk").value);
+    if(isNaN(target_atk)){
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:請輸入目標攻擊數值";
+        return;
+    }
+
+    if(isNaN(asc_1)){ asc_1 = 0; }
+    if(isNaN(asc_2)){ asc_2 = 0; }
+    if(isNaN(asc_3)){ asc_3 = 0; }
+    if(asc_1 < 0 || asc_1 > 20 || asc_2 < 0 || asc_2 > 20 || asc_3 < 0 || asc_3 > 20){
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:突破等級輸入錯誤";
+        return;
+    }
+
+    // revert ascension bonus
+    function revertAsc(atk, asc){
+        // asc atk = floor( atk * (1 + 0.01 * asc) )
+        result = Math.ceil( atk / (1 + 0.01 * asc) );
+        recalc_atk = Math.floor( result * (1 + 0.01 * asc) );
+        if(recalc_atk != atk){
+            return NaN;
+        }
+        return result;
+    }
+
+    if(isNaN(lv_1) || isNaN(atk_1) || isNaN(lv_3) || isNaN(atk_3) ){
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:請輸入完整數值";
+        return;
+    }
+    atk_1 = revertAsc(atk_1, asc_1);
+    atk_3 = revertAsc(atk_3, asc_3);
+    if (isNaN(atk_1) || isNaN(atk_3)) {
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:突破後攻擊數值錯誤";
+        return;
+    }
+    // make sure lv3 is largest
+    if (lv_1 > lv_3) {
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:等級1不可大於最高等級";
+        return;
+    }
+    if (atk_1 > atk_3) {
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:等級1攻擊不可大於最高等級攻擊";
+        return;
+    }
+    if (isNaN(lv_2) || isNaN(atk_2)) {
+        skip2 = true;
+    }else{
+        atk_2 = revertAsc(atk_2, asc_2);
+        if (isNaN(atk_2)) {
+            document.getElementById("errorSection").style.display = "block";
+            document.getElementById("errorLog").innerText = "Error:突破後攻擊數值錯誤";
+            return;
+        }
+        if (lv_2 > lv_3) {
+            document.getElementById("errorSection").style.display = "block";
+            document.getElementById("errorLog").innerText = "Error:等級2不可大於最高等級";
+            return;
+        }
+        if (atk_2 > atk_3) {
+            document.getElementById("errorSection").style.display = "block";
+            document.getElementById("errorLog").innerText = "Error:等級2攻擊不可大於最高等級攻擊";
+            return;
+        }
+    }
+
+    function calcBaseStat(lv_a, lv_b, stat_a, stat_b, mlp) {
+        if (lv_a == lv_b) {
+            document.getElementById("errorSection").style.display = "block";
+            document.getElementById("errorLog").innerText = "Error:等級輸入錯誤";
+            return;
+        }
+
+        var dy1 = stat_b - stat_a; // -1~0
+        var dx1 = (lv_b**mlp - lv_a**mlp)/(lv_b**mlp);
+        var delta1 = Math.ceil(dy1/dx1);
+        var base1 = stat_b - delta1;
+
+        stat_a += 1;
+        var dy2 = stat_b - stat_a;
+        var dx2 = (lv_b ** mlp - lv_a ** mlp) / (lv_b ** mlp);
+        var delta2 = Math.floor(dy2 / dx2);
+        var base2 = stat_b - delta2;
+
+        return [base1, base2];
+    }
+    
+    function confirmBaseStat(lv_a, lv_b, base, stat_a, stat_b, mlp) {
+        var calc_stat_a = Math.floor(base + ((lv_a / lv_b) ** mlp) * (stat_b - base));
+        if (calc_stat_a != stat_a) {
+            return false;
+        }
+        return true;
+    }
+
+    var base_atk;
+    var base_atk2;
+
+    [base_atk, base_atk2] = calcBaseStat(lv_1, lv_3, atk_1, atk_3, power);
+
+    base_atk_list = [];
+
+    for(let b = base_atk; b <= base_atk2; b++){
+        if(confirmBaseStat(lv_1, lv_3, b, atk_1, atk_3, power)){
+            base_atk_list.push(b);
+        }
+    }
+
+
+    if(base_atk_list.length == 0){
+        console.log(base_atk, base_atk2);
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:無解，請檢查數值";
+        return;
+    }
+
+    if(!skip2){
+        for(let i=0; i<base_atk_list.length; i++){
+            if(!confirmBaseStat(lv_2, lv_3, base_atk_list[i], atk_2, atk_3, power)){
+                base_atk_list.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
+    if(base_atk_list.length == 0){
+        document.getElementById("errorSection").style.display = "block";
+        document.getElementById("errorLog").innerText = "Error:無解，請檢查數值";
+        return;
+    }else if(base_atk_list.length > 1){
+        document.getElementById("errorSection").style.display = "block";
+        for(let i = 0; i < base_atk_list.length; i++){
+            console.log("Possible base atk: " + base_atk_list[i]);
+        }
+        
+        // try which level differs and request the user to provide level 2 value
+        recommend_lv2 = [];
+        for(let i = 1; i < lv_3; i++){
+            let test_atks = [];
+            for(let j = 0; j < base_atk_list.length; j++){
+                test_atks.push( Math.floor(base_atk_list[j] + ((i / lv_3) ** power) * (atk_3 - base_atk_list[j])) );
+            }
+            let all_same = true;
+            for(let k = 1; k < test_atks.length; k++){
+                if(test_atks[k] != test_atks[0]){
+                    all_same = false;
+                    break;
+                }
+            }
+            if(!all_same){
+                recommend_lv2.push(i);
+            }
+        }
+        if(recommend_lv2.length > 0){
+            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值 (建議等級: " + recommend_lv2.join(", ") + ")";
+            return;
+        }
+        // else, just proceed with the first base atk
+    }
+    
+    let atk0 = base_atk_list[0];
+    let atk_lv1 = Math.floor(atk0 + ((1 / lv_3) ** power) * (atk_3 - atk0));
+
+
+    console.log(atk0);
+
+    let asc = 0;
+    let closest_atks = [];
+    
+    if (all_asc){
+        for (asc = 0; asc <= 20; asc++) {
+            let closest = Math.floor(atk_lv1 * (1 + 0.01 * asc));
+            let closest_lv = 1;
+            for (let lv = 1; lv <= lv_3; lv++) {
+                let calc_atk = Math.floor(atk0 + ((lv / lv_3) ** power) * (atk_3 - atk0));
+                let asc_atk = Math.floor(calc_atk * (1 + 0.01 * asc));
+                if (asc_atk <= target_atk) {
+                    closest = asc_atk;
+                    closest_lv = lv;
+                }else{
+                    break;
+                }            
+
+            }
+            if(closest <= target_atk){
+                //console.log("Asc " + asc + " closest atk: " + closest + " at lv " + closest_lv);
+                closest_atks.push({asc: asc, lv: closest_lv, atk: closest});
+            }else{
+                // ascension level too high, not possible to reach target atk
+                break;
+            }
+
+            
+        }
+        // modify the output section
+        let output_html = '<table class="w3-xlarge"><tbody>';
+        output_html += '<tr><th>突破</th><th>等級</th><th>攻擊</th></tr>';
+        for(let i=0; i<closest_atks.length; i++){
+            let bgColor = closest_atks[i].atk === target_atk ? 'yellow' : '';
+            output_html += '<tr style="background-color:' + bgColor + '"><td>+' + closest_atks[i].asc + '</td><td>Lv. ' + closest_atks[i].lv + '</td><td>' + closest_atks[i].atk + '</td></tr>';
+        }
+        output_html += '</tbody></table>';
+        document.getElementById("output").innerHTML = output_html;
+    }else{
+        let target_asc = parseInt(document.getElementById("target_asc").value);
+        if(isNaN(target_asc) || target_asc < 0 || target_asc > 20){
+            document.getElementById("errorSection").style.display = "block";
+            document.getElementById("errorLog").innerText = "Error:請輸入正確突破等級";
+            return;
+        }
+        let closest = atk0;
+        let target_lv = 1;
+        for (let lv = 1; lv <= lv_3; lv++) {
+            let calc_atk = Math.floor(atk0 + ((lv / lv_3) ** power) * (atk_3 - atk0));
+            let asc_atk = Math.floor(calc_atk * (1 + 0.01 * target_asc));
+            if (asc_atk <= target_atk) {
+                closest = asc_atk;
+                target_lv = lv;
+            }else{
+                break;
+            }
+
+        }
+        let output_html = '<table class="w3-xlarge"><tbody>';
+        output_html += '<tr><th>突破</th><th>等級</th><th>攻擊</th></tr>';
+        let bgColor = closest === target_atk ? 'yellow' : '';
+        output_html += '<tr style="background-color:' + bgColor + '"><td>+' + target_asc + '</td><td>Lv. ' + target_lv + '</td><td>' + closest + '</td></tr>';
+        output_html += '</tbody></table>';
+        document.getElementById("output").innerHTML = output_html;
+    }
+
+};
+</script>
+</body>
+</html>
