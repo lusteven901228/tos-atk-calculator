@@ -338,8 +338,11 @@ function calc(){
                 recommend_lv2.push(i);
             }
         }
-        if(recommend_lv2.length > 0){
-            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值 (建議等級: " + recommend_lv2.join(", ") + ")";
+        if(recommend_lv2.length > 10){
+            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值\n(建議等級: " + recommend_lv2.slice(0, 10).join(", ") + "...)";
+            return;
+        }else if(recommend_lv2.length > 0){
+            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值\n(建議等級: " + recommend_lv2.join(", ") + ")";
             return;
         }
         // else, just proceed with the first base atk
