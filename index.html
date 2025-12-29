@@ -30,7 +30,7 @@ input[type=number] {
 <!-- Page content -->
 <div class="w3-content" style="max-width:2000px;">
   <!-- The Band Section -->
-  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:487px" id="band">
     <h2 class="w3-center">神魔之塔卡片攻擊計算器</h2>
     <div><p class="w3-xlarge">
         種族:<select name="種族" id="multiplier">
@@ -53,29 +53,29 @@ input[type=number] {
                 </tr>
                 <tr class="w3-xlarge">
                     <td>等級1</td>
-                    <td><input type="number" id="lv_1" placeholder="1" min="0" value="1" max="99"></td>
-                    <td><input type="number" id="asc_1" placeholder="0" value="0" min="0" max="20"></td>
+                    <td><input type="number" id="lv_1" placeholder="1" min="0" value="1" max="99" style="width:100%"></td>
+                    <td><input type="number" id="asc_1" placeholder="0" value="0" min="0" max="20" style="width:100%"></td>
                     <td><input type="number" id="atk_1" placeholder="0" min="0"></td>
 
                 </tr>
                 <tr class="w3-xlarge">
                     <td>(等級2)</td>
-                    <td><input type="number" id="lv_2" placeholder="50" min="0" max="99"></td>
-                    <td><input type="number" id="asc_2" placeholder="0" value="0" min="0" max="20"></td>
+                    <td><input type="number" id="lv_2" placeholder="50" min="0" max="99" style="width:100%"></td>
+                    <td><input type="number" id="asc_2" placeholder="0" value="0" min="0" max="20" style="width:100%"></td>
                     <td><input type="number" id="atk_2" placeholder="0" min="0"></td>
                 </tr>
                 <tr class="w3-xlarge">
                     <td><span style="color: red;">最高</span>等級</td>
-                    <td><input type="number" id="lv_3" placeholder="最高等級" min="0" value="99" max="99"></td>
-                    <td><input type="number" id="asc_3" placeholder="0" value="0" min="0" max="20"></td>
+                    <td><input type="number" id="lv_3" placeholder="最高等級" min="0" value="99" max="99" style="width:100%"></td>
+                    <td><input type="number" id="asc_3" placeholder="0" value="0" min="0" max="20" style="width:100%"></td>
                     <td><input type="number" id="atk_3" placeholder="0" min="0"></td>
                 </tr>
             </tbody>
         </table>
-        <div class="w3-xlarge" style="display: flex; flex-direction: column; margin-left: 10px;">
-            <p >快速</p>
-            <img src="images/2468.jpg" alt="img1" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('2468')">
-            <img src="images/10564.jpg" alt="img2" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('10564')">
+        <div class="w3-xlarge" style="display: flex; flex-direction: column; margin-left: 10px; flex: 1; width: 70px;">
+            <p style="text-align: left">快速</p>
+            <img src="images/2468.jpg" alt="慈愛" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('2468')">
+            <img src="images/10564.jpg" alt="卡蜜拉" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('10564')">
         </div>
     </div>
     </p></div>
