@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head>  
 <title>神魔之塔卡片攻擊計算器</title>
 <link rel="icon" href="images/10564.jpg">
 <meta charset="UTF-8">
@@ -15,13 +15,12 @@ table, th, td {
 }
 /* Fix first column width */
 table tr td, table tr th {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
+  width: 80px;
+  min-width: 50px;
+  max-width: 80px;
 }
 input[type=number] {
-  width: 95px;
-  min-width: 95px;
+  min-width: 50px;
   max-width: 95px;
   text-align: right;
 }
@@ -46,10 +45,10 @@ input[type=number] {
         <table>
             <tbody>
                 <tr class="w3-xlarge">
-                    <td></td>
+                    <td style="width: 100px; min-width: 100px; max-width: 100px;"></td>
                     <td>等級</td>
                     <td>突破</td>
-                    <td>攻擊</td>
+                    <td style="width: 100px; min-width: 100px; max-width: 100px;">攻擊</td>
 
                 </tr>
                 <tr class="w3-xlarge">
@@ -74,14 +73,14 @@ input[type=number] {
             </tbody>
         </table>
         <div class="w3-xlarge" style="display: flex; flex-direction: column; margin-left: 10px;">
-            <p >快速:</p>
+            <p >快速</p>
             <img src="images/2468.jpg" alt="img1" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('2468')">
             <img src="images/10564.jpg" alt="img2" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('10564')">
         </div>
     </div>
     </p></div>
     <div><p class="w3-xlarge">
-        目標攻擊:<input type="number" id="target_atk" placeholder="0" min="0">
+        目標攻擊:<input style="width: 150px; min-width: 150px; max-width: 150px;" type="number" id="target_atk" placeholder="0" min="0">
     </p></div>
     <p><div>
         <label class="w3-xlarge">
@@ -339,10 +338,10 @@ function calc(){
             }
         }
         if(recommend_lv2.length > 10){
-            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值\n(建議等級: " + recommend_lv2.slice(0, 10).join(", ") + "...)";
+            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值\n (建議等級: " + recommend_lv2.slice(0, 10).join(", ") + "...)";
             return;
         }else if(recommend_lv2.length > 0){
-            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值\n(建議等級: " + recommend_lv2.join(", ") + ")";
+            document.getElementById("errorLog").innerText = "Error:多解，請提供等級2數值\n (建議等級: " + recommend_lv2.join(", ") + ")";
             return;
         }
         // else, just proceed with the first base atk
