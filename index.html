@@ -21,7 +21,7 @@ table tr td, table tr th {
 }
 input[type=number] {
   min-width: 50px;
-  max-width: 95px;
+  max-width: 80px;
   text-align: right;
 }
 </style>
@@ -48,13 +48,15 @@ input[type=number] {
                     <td style="width: 100px; min-width: 100px; max-width: 100px;"></td>
                     <td>等級</td>
                     <td>突破</td>
-                    <td style="width: 100px; min-width: 100px; max-width: 100px;">攻擊</td>
+                    <td style="width: 85px; min-width: 85px; max-width: 85px;">昇華+</td>
+                    <td style="width: 85px; min-width: 85px; max-width: 85px;">攻擊</td>
 
                 </tr>
                 <tr class="w3-xlarge">
                     <td>等級1</td>
                     <td><input type="number" id="lv_1" placeholder="1" min="0" value="1" max="99" style="width:100%"></td>
                     <td><input type="number" id="asc_1" placeholder="0" value="0" min="0" max="20" style="width:100%"></td>
+                    <td><input type="number" id="ame_1" placeholder="0" min="0"></td>
                     <td><input type="number" id="atk_1" placeholder="0" min="0"></td>
 
                 </tr>
@@ -62,26 +64,36 @@ input[type=number] {
                     <td>(等級2)</td>
                     <td><input type="number" id="lv_2" placeholder="50" min="0" max="99" style="width:100%"></td>
                     <td><input type="number" id="asc_2" placeholder="0" value="0" min="0" max="20" style="width:100%"></td>
+                    <td><input type="number" id="ame_2" placeholder="0" min="0"></td>
                     <td><input type="number" id="atk_2" placeholder="0" min="0"></td>
                 </tr>
                 <tr class="w3-xlarge">
                     <td><span style="color: red;">最高</span>等級</td>
                     <td><input type="number" id="lv_3" placeholder="最高等級" min="0" value="99" max="99" style="width:100%"></td>
                     <td><input type="number" id="asc_3" placeholder="0" value="0" min="0" max="20" style="width:100%"></td>
+                    <td><input type="number" id="ame_3" placeholder="0" min="0"></td>
                     <td><input type="number" id="atk_3" placeholder="0" min="0"></td>
                 </tr>
             </tbody>
         </table>
-        <div class="w3-xlarge" style="display: flex; flex-direction: column; margin-left: 10px; flex: 1; width: 70px;">
-            <p style="text-align: left">快速</p>
+        <div class="w3-xlarge" style="display: flex; flex-direction: column; margin-left: 10px; width: 70px;">
+            <div style="height: auto;">
+                <p style="text-align: left; margin: 0;">快速</p>
+            </div>
             <img src="images/2468.jpg" alt="慈愛" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('2468')">
             <img src="images/10564.jpg" alt="卡蜜拉" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('10564')">
+            <img src="images/10564IV.jpg" alt="卡蜜拉IV" style="width: 40px; height: 40px; cursor: pointer; margin-bottom: 5px;" onclick="loadDefaults('10564IV')">
         </div>
     </div>
     </p></div>
-    <div><p class="w3-xlarge">
-        目標攻擊:<input style="width: 150px; min-width: 150px; max-width: 150px;" type="number" id="target_atk" placeholder="0" min="0">
-    </p></div>
+    <div>
+        <p class="w3-xlarge">
+            額外加攻 : <input style="width: 150px; min-width: 150px; max-width: 150px;" type="number" id="target_ame" placeholder="0" min="0">
+        </p>
+        <p class="w3-xlarge">
+            目標攻擊 : <input style="width: 150px; min-width: 150px; max-width: 150px;" type="number" id="target_atk" placeholder="0" min="0">
+        </p>
+    </div>
     <p><div>
         <label class="w3-xlarge">
             <button id="toggleBtn" onclick="toggleAscMode()">
@@ -111,42 +123,69 @@ all_asc = true;
 function clearInputs(){
     document.getElementById("lv_1").value = "1";
     document.getElementById("asc_1").value = "0";
+    document.getElementById("ame_1").value = "";
     document.getElementById("atk_1").value = "";
     document.getElementById("lv_2").value = "";
     document.getElementById("asc_2").value = "0";
+    document.getElementById("ame_2").value = "";
     document.getElementById("atk_2").value = "";
     document.getElementById("lv_3").value = "99";
     document.getElementById("asc_3").value = "0";
+    document.getElementById("ame_3").value = "";
     document.getElementById("atk_3").value = "";
     document.getElementById("target_atk").value = "";
     document.getElementById("target_asc").value = "0";
     document.getElementById("output").innerHTML = "";
     document.getElementById("errorLog").innerText = "";
     document.getElementById("errorSection").style.display = "none";
+    document.getElementById("target_ame").value = "";
 }
 function loadDefaults(id){
     if(id === '2468'){
         document.getElementById("multiplier").value = "1";
         document.getElementById("lv_1").value = "0";
         document.getElementById("asc_1").value = "0";
+        document.getElementById("ame_1").value = "0";
         document.getElementById("atk_1").value = "1596";
         document.getElementById("lv_2").value = "50";
         document.getElementById("asc_2").value = "0";
+        document.getElementById("ame_2").value = "0";
         document.getElementById("atk_2").value = "2245";
         document.getElementById("lv_3").value = "99";
         document.getElementById("asc_3").value = "0";
+        document.getElementById("ame_3").value = "0";
         document.getElementById("atk_3").value = "2882";
+        document.getElementById("target_ame").value = "";
     }else if(id === '10564'){
         document.getElementById("multiplier").value = "1";
         document.getElementById("lv_1").value = "1";
         document.getElementById("asc_1").value = "0";
+        document.getElementById("ame_1").value = "0";
         document.getElementById("atk_1").value = "1333";
         document.getElementById("lv_2").value = "50";
         document.getElementById("asc_2").value = "0";
+        document.getElementById("ame_2").value = "0";
         document.getElementById("atk_2").value = "";
         document.getElementById("lv_3").value = "99";
         document.getElementById("asc_3").value = "0";
+        document.getElementById("ame_3").value = "0";
         document.getElementById("atk_3").value = "2390";
+        document.getElementById("target_ame").value = "0";
+    }else if(id === '10564IV'){
+        document.getElementById("multiplier").value = "1";
+        document.getElementById("lv_1").value = "1";
+        document.getElementById("asc_1").value = "0";
+        document.getElementById("ame_1").value = "0";
+        document.getElementById("atk_1").value = "1333";
+        document.getElementById("lv_2").value = "50";
+        document.getElementById("asc_2").value = "0";
+        document.getElementById("ame_2").value = "0";
+        document.getElementById("atk_2").value = "";
+        document.getElementById("lv_3").value = "99";
+        document.getElementById("asc_3").value = "0";
+        document.getElementById("ame_3").value = "0";
+        document.getElementById("atk_3").value = "2390";
+        document.getElementById("target_ame").value = "300";
     }
 }
 function toggleAscMode() {
@@ -178,6 +217,16 @@ function calc(){
     
     let power = parseFloat(document.getElementById("multiplier").value);
     var skip2 = false;
+
+    let ame_1 = parseInt(document.getElementById("ame_1").value);
+    let ame_2 = parseInt(document.getElementById("ame_2").value);
+    let ame_3 = parseInt(document.getElementById("ame_3").value);
+    if(isNaN(ame_1)){ ame_1 = 0; }
+    if(isNaN(ame_2)){ ame_2 = 0; }
+    if(isNaN(ame_3)){ ame_3 = 0; }
+
+    let target_ame = parseInt(document.getElementById("target_ame").value);
+    if(isNaN(target_ame)){ target_ame = 0; }
 
     let target_atk = parseInt(document.getElementById("target_atk").value);
     if(isNaN(target_atk)){
@@ -218,6 +267,8 @@ function calc(){
         document.getElementById("errorLog").innerText = "Error:突破後攻擊數值錯誤";
         return;
     }
+    atk_1 -= ame_1;
+    atk_3 -= ame_3;
     // make sure lv3 is largest
     if (lv_1 > lv_3) {
         document.getElementById("errorSection").style.display = "block";
@@ -233,6 +284,7 @@ function calc(){
         skip2 = true;
     }else{
         atk_2 = revertAsc(atk_2, asc_2);
+        atk_2 -= ame_2;
         if (isNaN(atk_2)) {
             document.getElementById("errorSection").style.display = "block";
             document.getElementById("errorLog").innerText = "Error:突破後攻擊數值錯誤";
@@ -348,7 +400,7 @@ function calc(){
     }
     
     let atk0 = base_atk_list[0];
-    let atk_lv1 = Math.floor(atk0 + ((1 / lv_3) ** power) * (atk_3 - atk0));
+    let atk_lv1 = Math.floor(atk0 + ((1 / lv_3) ** power) * (atk_3 - atk0)) + target_ame;
 
 
     console.log(atk0);
@@ -361,7 +413,7 @@ function calc(){
             let closest = Math.floor(atk_lv1 * (1 + 0.01 * asc));
             let closest_lv = 1;
             for (let lv = 1; lv <= lv_3; lv++) {
-                let calc_atk = Math.floor(atk0 + ((lv / lv_3) ** power) * (atk_3 - atk0));
+                let calc_atk = Math.floor(atk0 + ((lv / lv_3) ** power) * (atk_3 - atk0)) + target_ame;
                 let asc_atk = Math.floor(calc_atk * (1 + 0.01 * asc));
                 if (asc_atk <= target_atk) {
                     closest = asc_atk;
@@ -400,7 +452,7 @@ function calc(){
         let closest = atk0;
         let target_lv = 1;
         for (let lv = 1; lv <= lv_3; lv++) {
-            let calc_atk = Math.floor(atk0 + ((lv / lv_3) ** power) * (atk_3 - atk0));
+            let calc_atk = Math.floor(atk0 + ((lv / lv_3) ** power) * (atk_3 - atk0)) + target_ame;
             let asc_atk = Math.floor(calc_atk * (1 + 0.01 * target_asc));
             if (asc_atk <= target_atk) {
                 closest = asc_atk;
